@@ -10,8 +10,14 @@
         padding-top: 60px;
       }
     </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     
+    <script src="/js/Buildings.js"></script>  
+    <script src="/js/Resources.js"></script>    
+    <script src="/js/npc.js"></script>
     <script src="/js/app.js"></script>
   </head>
   <body>
@@ -32,10 +38,14 @@
                   <circle ng-repeat="npc in npcs" style="stroke: #ccc; fill: #ccc;" cx="{{npc.x}}" cy="{{npc.y}}" r="{{npc.radius}}" ng-click="npcClick(npc)"/>
                   </g>
                   <g>
-                  <rect ng-repeat="building in buildings"  style="stroke: #ccc; fill: #ccc;" x="{{building.x}}" y="{{building.y}}" height="{{building.height}}" width="{{building.width}}" />
+                  <g ng-repeat="building in buildings">
+                  <rect style="stroke: #ccc; fill: #ccc;" x="{{building.x}}" y="{{building.y}}" height="{{building.height}}" width="{{building.width}}" ng-click="buildingClick(building)"/>
+                  <text fill="red" x="{{building.x-10}}" y="{{building.y+30}}">{{building.name}}</text>
+                  </g>
                 </g>
                 <g>
                   <circle ng-repeat="resource in resources" cx="{{resource.x}}" cy="{{resource.y}}" r="5" style="stroke: {{resource.state.strokeColor}}; fill: {{resource.type.color}};"/>
+                  <!--<text fill="red" ng-repeat="resource in resources" x="{{resource.x}}" y="{{resource.y}}">X: {{resource.x}} Y: {{resource.y}}</text>-->
                 </g>
               </svg>
           </div>
@@ -75,9 +85,6 @@
         </div>
       </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
     <!--<script src="/js/angular.min.js"></script>-->
   </body>
 </html>

@@ -1,26 +1,29 @@
-var State={
+var Resource = {
+  scope:{},
+State:{
     "free":{id:1,strokeColor:"green"},
     "transit":{id:2,strokeColor:"blue"},
-    "inUse":{id:3,strokeColor:"#333"}
-  };
-var Type = {
+    "inUse":{id:3,strokeColor:"#333"},
+  },
+Type: {
     "wood":{id:1,color:"#AA7243"},
-    "stone":{id:2,color:"#CCCCCC"}
-  };
-function ResourceManager($scope){
+    "stone":{id:2,color:"#CCCCCC"},
+    "board":{id:3,color:"#F4A460"},
+    "tree":{id:3,color:"DarkGreen"},
+  },
 
-  this.getFree= function(type){
-          return $scope.resources.find(function(el){
-              return el.state == State.free && el.type == type;
+  getFree: function(type){
+          return Resource.scope.resources.find(function(el){
+              return el.state == Resource.State.free && el.type == type;
           })
-      };
-  this.create = function(aType){
+      },
+  create : function(aType){
       var r ={
         type:aType,
-        state:State.free,
+        state:Resource.State.free,
         x:45,
         y:45
       };
       return r;
-    };
- }
+    }
+}
