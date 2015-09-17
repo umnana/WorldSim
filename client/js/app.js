@@ -6,17 +6,23 @@ angular.module('app', [])
         
           
         var socket = io.connect();
+        var buildSomething = false;
+        var sawmillTypeName = "sawmill";
+        var foresterTypeName = "forester";
+        var woodchopperTypeName = "woodchopper";
+        var smallHouseTypeName = "smallhouse";
+        var bigHouseTypeName = "bighouse";
+        
         
         $scope.resources = [];
-
         $scope.messages = [];
         $scope.roster = [];
         $scope.name = '';
         $scope.text = '';
         $scope.npcs = [];
         $scope.buildings = [];
-        
-        
+        $scope.buildingTypes = [woodchopperTypeName, foresterTypeName, sawmillTypeName,smallHouseTypeName,bigHouseTypeName];
+        $scope.selectedBuildingType = undefined;
         
         $scope.time=0;
         var deltaT=0.1;
@@ -34,13 +40,13 @@ angular.module('app', [])
             $scope.time =$scope.time+deltaT;
           }, 1000*deltaT);
         
-        var forester=Buildings.createForester();
+        var forester=new Forester(150, 150);
         $scope.buildings.push(forester);
-        var woodchopper=Buildings.createWoodchopper();
+        var woodchopper=new Woodchopper(50, 50);
         $scope.buildings.push(woodchopper);
-        var sawmill=Buildings.createSawmill();
+        var sawmill=new Sawmill(700, 700);
         $scope.buildings.push(sawmill);
-        var pool=Buildings.createPool();
+        var pool=new Pool(200, 600);
         $scope.buildings.push(pool);
         $scope.pool = pool;
         
@@ -56,11 +62,43 @@ angular.module('app', [])
         
         $scope.npcClick = function(npc){
           npc.type = NPC.Type.idle
+          buildSomething = false;
         };
         
         $scope.buildingClick = function(building){
-          if (building.assignWorker !== undefined){
-            building.assignWorker();
+          building.assignWorker();
+          buildSomething = false;
+        };
+        
+        $scope.buildingTypeSelected = function(type){
+          $scope.selectedBuildingType = type;
+          buildSomething = true;
+        };
+        
+        $scope.gameAreaClicked = function(event){
+          if (buildSomething && $scope.selectedBuildingType !== undefined){
+            var newBuilding = undefined;
+            switch ($scope.selectedBuildingType) {
+              case sawmillTypeName:
+                newBuilding = new Sawmill(event.offsetX, event.offsetY);
+                break;
+              case woodchopperTypeName:
+                newBuilding = new Woodchopper(event.offsetX, event.offsetY);
+                break;
+                case foresterTypeName:
+                newBuilding = new Forester(event.offsetX, event.offsetY);
+                break;
+                case smallHouseTypeName:
+                newBuilding = new House(event.offsetX, event.offsetY,5);
+                break;
+                case bigHouseTypeName:
+                newBuilding = new House(event.offsetX, event.offsetY,20);
+                break;
+              default:
+                return
+            }
+            
+            $scope.buildings.push(newBuilding);
           }
         };
 

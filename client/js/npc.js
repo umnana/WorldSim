@@ -44,6 +44,7 @@ var NPC = {
                 this.luggage.forEach(function(packet){
                     packet.state = Resource.State.inUse;
                     npc.type.destination.resources.push(packet);
+                    npc.type.destination.incoming = npc.type.destination.incoming.filter(function(res) { return res !== packet});
                 });
                 this.luggage = [];
                 this.isFull = false;

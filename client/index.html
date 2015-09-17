@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" ng-app="app">
   <head>
-    <title>Chat Example</title>
+    <title>WorldSim</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
@@ -15,8 +15,8 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     
-    <script src="/js/Buildings.js"></script>  
-    <script src="/js/Resources.js"></script>    
+    <script src="/js/Resources.js"></script> 
+    <script src="/js/Buildings.js"></script>     
     <script src="/js/npc.js"></script>
     <script src="/js/app.js"></script>
   </head>
@@ -30,10 +30,13 @@
         </div>
       </div>
       <div class="page-header">
-        <h1>Chat Example ... Hello World</h1>
+        <h1>Hello World Simulator</h1>
+      </div>
+      <div class="row">
+        <button ng-repeat="type in buildingTypes" class="btn" ng-click="buildingTypeSelected(type)">{{type}}</button>
       </div>
           <div class="row">
-              <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" style="border:solid medium red;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" style="border:solid medium red;" ng-click="gameAreaClicked($event)">
                 <g>
                   <circle ng-repeat="npc in npcs" style="stroke: #ccc; fill: #ccc;" cx="{{npc.x}}" cy="{{npc.y}}" r="{{npc.radius}}" ng-click="npcClick(npc)"/>
                   </g>
